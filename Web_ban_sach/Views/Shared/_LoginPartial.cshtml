@@ -1,0 +1,8 @@
+﻿@if (Session["Taikhoan"] == null)
+{
+                @Html.ActionLink("Đăng Nhập", "Login", "Account")
+}
+else
+{
+    TAIKHOAN taikhoan = (TAIKHOAN)Session["TaiKhoan"];
+}
