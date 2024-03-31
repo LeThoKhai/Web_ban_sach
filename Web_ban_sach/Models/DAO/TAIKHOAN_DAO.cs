@@ -8,7 +8,7 @@ namespace Web_ban_sach.Models.DAO
     public class TAIKHOAN_DAO
     {
         public static TAIKHOAN Read(string username) {
-            using(BanSachEntities db=new BanSachEntities())
+            using(BanSachEntities2 db = new BanSachEntities2())
             {
                 TAIKHOAN ketqua=db.TAIKHOAN.FirstOrDefault(n=>n.UserID == username);
                 if (ketqua != null)

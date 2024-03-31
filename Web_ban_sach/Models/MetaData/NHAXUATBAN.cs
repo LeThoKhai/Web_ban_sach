@@ -10,7 +10,7 @@ namespace Web_ban_sach.Models
     public partial class NHAXUATBAN
     {
         public int Count;
-
+         
         sealed class MetaData
         {
             [Required(AllowEmptyStrings = false,

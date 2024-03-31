@@ -22,14 +22,14 @@
             <div class="top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6 col-lg-6">
+                        <div class="col-md-6">
                             <ul class="topleft-info">
                                 <li>
-                                    @Html.Partial("_LoginPartial")
+                                    <!--Code login partial-->
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-sm-6 col-lg-6">
+                        <div class="col-md-6">
                             <div id="sb-search" class="sb-search">
                                 <form>
                                     <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
@@ -61,6 +61,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Danh mục Sách <i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Toàn bộ", "", "")</li>
                                     <li class="dropdown-submenu">
                                         <a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown">Theo Chủ đề </a>
                                         <ul class="dropdown-menu">
@@ -69,7 +70,7 @@
                                                 foreach (CHUDE cd in lst_CD)
                                                 {
                                                     <li>
-                                                        @Html.ActionLink(cd.TenChuDe, "Index", "Danhmuc_Sach", routeValues: new { @Chu_De = cd.MaCD }, htmlAttributes: null)
+                                                        @Html.ActionLink(cd.MaCD, "Index", "Danhmuc_Sach", routeValues: new { @Chu_De = cd.MaCD }, htmlAttributes: null)
                                                     </li>
                                                 }
                                             }
@@ -102,13 +103,25 @@
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>
+                        <ul class="nav navbar-nav " style=" float:left ;">
+                            <li>
+                                @if (Request.Cookies["TaiKhoan"]==null )
+                                {
+                                  @Html.ActionLink("đăng nhập","Login","Account" )          
+                                }else
+
+                                { 
+                                        }
+                            </li>
+                        </ul> 
                     </div>
                 </div>
             </div>
         </header>
-        <!-- end header -->
 
-        <section id="content">
+        <!-- end header -->
+        <!-- Start content -->
+        <section id="content" style="padding : 20px 0 40px 0;">
             <div class="container">
                 <div class="row">
                     <!--Left side bar-->
@@ -134,7 +147,7 @@
                                     {
                                         <li>
                                             <i class="fa fa-angle-right"></i>
-                                            @Html.ActionLink(nxb.TenNXB, "Index", "Danhmuc_Sach", routeValues: new { @Nha_XB = nxb.MaNXB}, htmlAttributes: null)
+                                            @Html.ActionLink(nxb.TenNXB, "Index", "Danhmuc_Sach", routeValues: new { @Nha_XB = nxb.MaNXB }, htmlAttributes: null)
                                             <span> (@nxb.Count)</span>
                                         </li>
                                     }
@@ -145,22 +158,28 @@
 
                     <div class="col-sm-9 col-lg-9">
                         <!-- Slider -->
-                        <div id="main-slider" class="main-slider flexslider">
-                            <ul class="slides">
-                                <li>
-                                    <img src="~/Content/img/slides/flexslider/1.jpg" style="height:200px;" alt="" />
-                                </li>
-                                <li>
-                                    <img src="~/Content/img/slides/flexslider/2.jpg" style="height:200px;" alt="" />
-                                </li>
-                                <li>
-                                    <img src="~/Content/img/slides/flexslider/3.jpg" style="height:200px;" alt="" />
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- end slider -->
-                        <div>
-                            @RenderBody()
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="main-slider" class="main-slider flexslider" style="margin : 0 0 40px 0;">
+                                        <ul class="slides">
+                                            <li>
+                                                <img src="~/Content/img/slides/flexslider/sach1.jfif" style="height:400px;" alt="" />
+                                            </li>
+                                            <li>
+                                                <img src="~/Content/img/slides/flexslider/sach2.jfif" style="height:400px;" alt="" />
+                                            </li>
+                                            <li>
+                                                <img src="~/Content/img/slides/flexslider/sach3.jfif" style="height:400px;" alt="" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- end slider -->
+                                    <div>
+                                        @RenderBody()
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,13 +187,78 @@
         </section>
 
 
+
+        <!-- end content -->
+        <!-- start footer -->
         <footer>
+            <div class="container"  >
+                <div class="row">
+                    <div class="col-sm-3 col-lg-3">
+                        <div class="widget">
+                            <h4>Get in touch with us</h4>
+                            <address>
+                                <strong>Sailor company Inc</strong><br>
+                                Sailor suite room V124, DB 91<br>
+                                Someplace 71745 Earth
+                            </address>
+                            <p>
+                                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
+                                <i class="icon-envelope-alt"></i> email@domainname.com
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class="widget">
+                            <h4>Information</h4>
+                            <ul class="link-list">
+                                <li><a href="#">Press release</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Career center</a></li>
+                                <li><a href="#">Contact us</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class="widget">
+                            <h4>Pages</h4>
+                            <ul class="link-list">
+
+                                <li>@Html.ActionLink("giới thiệu", "About", "Home")</li>
+                                <li>@Html.ActionLink("Liên hệ", "Contact", "Home")</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class="widget">
+                            <h4>Đăng ký email</h4>
+                            <p>điền thông tin để nhận khuyến mãi hằng tháng</p>
+                            <div class="form-group multiple-form-group input-group">
+                                <input type="email" name="email" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-theme btn-add">Subscribe</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="sub-footer">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="copyright">
                                 <p>&copy; Sailor Theme - All Right Reserved</p>
+                                <div class="credits">
+                                    <!--
+                                    All the links in the footer should remain intact.
+                                    You can delete the links only if you purchased the pro version.
+                                    Licensing information: https://bootstrapmade.com/license/
+                                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Sailor
+                                -->
+                                    <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">

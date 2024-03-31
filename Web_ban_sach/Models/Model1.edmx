@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BanSachModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BanSachModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CHITIETDONHANG">
           <Key>
             <PropertyRef Name="MaDonHang" />
@@ -69,8 +69,6 @@
           <Property Name="Diachi" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Dienthoai" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PHANQUYEN">
           <Key>
             <PropertyRef Name="ID_LoaiTK" />
@@ -249,16 +247,11 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
           <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOAI_TAIKHOAN" EntityType="Self.LOAI_TAIKHOAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHAXUATBAN" EntityType="Self.NHAXUATBAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PHANQUYEN" EntityType="Self.PHANQUYEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SACH_" EntityType="Self.SACH_" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TACGIA" EntityType="Self.TACGIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VIETSACH" EntityType="Self.VIETSACH" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PHANQUYEN" EntityType="Self.PHANQUYEN" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [PHANQUYEN].[ID_LoaiTK] AS [ID_LoaiTK], 
-    [PHANQUYEN].[ID_ChucNang] AS [ID_ChucNang]
-    FROM [dbo].[PHANQUYEN] AS [PHANQUYEN]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CHITIETDONHANG_DONDATHANG" Association="Self.FK_CHITIETDONHANG_DONDATHANG">
             <End Role="DONDATHANG" EntitySet="DONDATHANG" />
             <End Role="CHITIETDONHANG" EntitySet="CHITIETDONHANG" />
@@ -300,7 +293,8 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
             <End Role="VIETSACH" EntitySet="VIETSACH" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BanSachModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -315,6 +309,14 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
           <Property Name="Dongia" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="DONDATHANG" Relationship="Self.FK_CHITIETDONHANG_DONDATHANG" FromRole="CHITIETDONHANG" ToRole="DONDATHANG" />
           <NavigationProperty Name="SACH_" Relationship="Self.FK_CHITIETDONHANG_SACH_" FromRole="CHITIETDONHANG" ToRole="SACH_" />
+        </EntityType>
+        <EntityType Name="CHUCNANG">
+          <Key>
+            <PropertyRef Name="ID_ChucNang" />
+          </Key>
+          <Property Name="ID_ChucNang" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ten_ChucNang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LOAI_TAIKHOAN" Relationship="Self.PHANQUYEN" FromRole="CHUCNANG" ToRole="LOAI_TAIKHOAN" />
         </EntityType>
         <EntityType Name="CHUDE">
           <Key>
@@ -350,6 +352,15 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
           <Property Name="Dienthoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Ngaysinh" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="DONDATHANG" Relationship="Self.FK_DONDATHANG_KHACHHANG" FromRole="KHACHHANG" ToRole="DONDATHANG" />
+        </EntityType>
+        <EntityType Name="LOAI_TAIKHOAN">
+          <Key>
+            <PropertyRef Name="ID_LoaiTK" />
+          </Key>
+          <Property Name="ID_LoaiTK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ten_LoaiTK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_TAIKHOAN_LOAI_TAIKHOAN" FromRole="LOAI_TAIKHOAN" ToRole="TAIKHOAN" />
+          <NavigationProperty Name="CHUCNANG" Relationship="Self.PHANQUYEN" FromRole="LOAI_TAIKHOAN" ToRole="CHUCNANG" />
         </EntityType>
         <EntityType Name="NHAXUATBAN">
           <Key>
@@ -389,6 +400,15 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
           <Property Name="Tieusu" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Dienthoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="VIETSACH" Relationship="Self.FK_VIETSACH_TACGIA" FromRole="TACGIA" ToRole="VIETSACH" />
+        </EntityType>
+        <EntityType Name="TAIKHOAN">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Loai_TK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LOAI_TAIKHOAN" Relationship="Self.FK_TAIKHOAN_LOAI_TAIKHOAN" FromRole="TAIKHOAN" ToRole="LOAI_TAIKHOAN" />
         </EntityType>
         <EntityType Name="VIETSACH">
           <Key>
@@ -450,6 +470,18 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TAIKHOAN_LOAI_TAIKHOAN">
+          <End Role="LOAI_TAIKHOAN" Type="Self.LOAI_TAIKHOAN" Multiplicity="1" />
+          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOAI_TAIKHOAN">
+              <PropertyRef Name="ID_LoaiTK" />
+            </Principal>
+            <Dependent Role="TAIKHOAN">
+              <PropertyRef Name="ID_Loai_TK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SACH__NHAXUATBAN">
           <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="0..1" />
           <End Role="SACH_" Type="Self.SACH_" Multiplicity="*" />
@@ -486,14 +518,21 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BanSachEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="PHANQUYEN">
+          <End Role="CHUCNANG" Type="Self.CHUCNANG" Multiplicity="*" />
+          <End Role="LOAI_TAIKHOAN" Type="Self.LOAI_TAIKHOAN" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BanSachEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CHITIETDONHANG" EntityType="Self.CHITIETDONHANG" />
+          <EntitySet Name="CHUCNANG" EntityType="Self.CHUCNANG" />
           <EntitySet Name="CHUDE" EntityType="Self.CHUDE" />
           <EntitySet Name="DONDATHANG" EntityType="Self.DONDATHANG" />
           <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" />
+          <EntitySet Name="LOAI_TAIKHOAN" EntityType="Self.LOAI_TAIKHOAN" />
           <EntitySet Name="NHAXUATBAN" EntityType="Self.NHAXUATBAN" />
           <EntitySet Name="SACH_" EntityType="Self.SACH_" />
           <EntitySet Name="TACGIA" EntityType="Self.TACGIA" />
+          <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" />
           <EntitySet Name="VIETSACH" EntityType="Self.VIETSACH" />
           <AssociationSet Name="FK_CHITIETDONHANG_DONDATHANG" Association="Self.FK_CHITIETDONHANG_DONDATHANG">
             <End Role="DONDATHANG" EntitySet="DONDATHANG" />
@@ -511,6 +550,10 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
             <End Role="DONDATHANG" EntitySet="DONDATHANG" />
           </AssociationSet>
+          <AssociationSet Name="FK_TAIKHOAN_LOAI_TAIKHOAN" Association="Self.FK_TAIKHOAN_LOAI_TAIKHOAN">
+            <End Role="LOAI_TAIKHOAN" EntitySet="LOAI_TAIKHOAN" />
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+          </AssociationSet>
           <AssociationSet Name="FK_SACH__NHAXUATBAN" Association="Self.FK_SACH__NHAXUATBAN">
             <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
             <End Role="SACH_" EntitySet="SACH_" />
@@ -523,66 +566,17 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
             <End Role="TACGIA" EntitySet="TACGIA" />
             <End Role="VIETSACH" EntitySet="VIETSACH" />
           </AssociationSet>
-          <EntitySet Name="CHUCNANG" EntityType="BanSachModel.CHUCNANG" />
-          <EntitySet Name="TAIKHOAN" EntityType="BanSachModel.TAIKHOAN" />
-          <EntitySet Name="LOAI_TAIKHOAN" EntityType="BanSachModel.LOAI_TAIKHOAN" />
-          <AssociationSet Name="FK_TAIKHOAN_LOAI_TAIKHOAN" Association="BanSachModel.FK_TAIKHOAN_LOAI_TAIKHOAN">
-            <End Role="LOAI_TAIKHOAN" EntitySet="LOAI_TAIKHOAN" />
-            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
-          </AssociationSet>
-          <AssociationSet Name="PHANQUYEN" Association="BanSachModel.PHANQUYEN">
+          <AssociationSet Name="PHANQUYEN" Association="Self.PHANQUYEN">
             <End Role="CHUCNANG" EntitySet="CHUCNANG" />
             <End Role="LOAI_TAIKHOAN" EntitySet="LOAI_TAIKHOAN" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CHUCNANG">
-          <Key>
-            <PropertyRef Name="ID_ChucNang" />
-          </Key>
-          <Property Name="ID_ChucNang" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ten_ChucNang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LOAI_TAIKHOAN" Relationship="BanSachModel.PHANQUYEN" FromRole="CHUCNANG" ToRole="LOAI_TAIKHOAN" />
-        </EntityType>
-        <EntityType Name="TAIKHOAN">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ID_Loai_TK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="LOAI_TAIKHOAN" Relationship="BanSachModel.FK_TAIKHOAN_LOAI_TAIKHOAN" FromRole="TAIKHOAN" ToRole="LOAI_TAIKHOAN" />
-        </EntityType>
-        <EntityType Name="LOAI_TAIKHOAN">
-          <Key>
-            <PropertyRef Name="ID_LoaiTK" />
-          </Key>
-          <Property Name="ID_LoaiTK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ten_LoaiTK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TAIKHOAN" Relationship="BanSachModel.FK_TAIKHOAN_LOAI_TAIKHOAN" FromRole="LOAI_TAIKHOAN" ToRole="TAIKHOAN" />
-          <NavigationProperty Name="CHUCNANG" Relationship="BanSachModel.PHANQUYEN" FromRole="LOAI_TAIKHOAN" ToRole="CHUCNANG" />
-        </EntityType>
-        <Association Name="FK_TAIKHOAN_LOAI_TAIKHOAN">
-          <End Type="BanSachModel.LOAI_TAIKHOAN" Role="LOAI_TAIKHOAN" Multiplicity="1" />
-          <End Type="BanSachModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LOAI_TAIKHOAN">
-              <PropertyRef Name="ID_LoaiTK" />
-            </Principal>
-            <Dependent Role="TAIKHOAN">
-              <PropertyRef Name="ID_Loai_TK" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PHANQUYEN">
-          <End Type="BanSachModel.CHUCNANG" Role="CHUCNANG" Multiplicity="*" />
-          <End Type="BanSachModel.LOAI_TAIKHOAN" Role="LOAI_TAIKHOAN" Multiplicity="*" />
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BanSachModelStoreContainer" CdmEntityContainer="BanSachEntities">
+        <EntityContainerMapping StorageEntityContainer="BanSachModelStoreContainer" CdmEntityContainer="BanSachEntities2">
           <EntitySetMapping Name="CHITIETDONHANG">
             <EntityTypeMapping TypeName="BanSachModel.CHITIETDONHANG">
               <MappingFragment StoreEntitySet="CHITIETDONHANG">
@@ -590,6 +584,14 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
                 <ScalarProperty Name="MaSach" ColumnName="MaSach" />
                 <ScalarProperty Name="Soluong" ColumnName="Soluong" />
                 <ScalarProperty Name="Dongia" ColumnName="Dongia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CHUCNANG">
+            <EntityTypeMapping TypeName="BanSachModel.CHUCNANG">
+              <MappingFragment StoreEntitySet="CHUCNANG">
+                <ScalarProperty Name="ID_ChucNang" ColumnName="ID_ChucNang" />
+                <ScalarProperty Name="Ten_ChucNang" ColumnName="Ten_ChucNang" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -624,6 +626,14 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
                 <ScalarProperty Name="Diachi" ColumnName="Diachi" />
                 <ScalarProperty Name="Dienthoai" ColumnName="Dienthoai" />
                 <ScalarProperty Name="Ngaysinh" ColumnName="Ngaysinh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOAI_TAIKHOAN">
+            <EntityTypeMapping TypeName="BanSachModel.LOAI_TAIKHOAN">
+              <MappingFragment StoreEntitySet="LOAI_TAIKHOAN">
+                <ScalarProperty Name="ID_LoaiTK" ColumnName="ID_LoaiTK" />
+                <ScalarProperty Name="Ten_LoaiTK" ColumnName="Ten_LoaiTK" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -663,6 +673,15 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TAIKHOAN">
+            <EntityTypeMapping TypeName="BanSachModel.TAIKHOAN">
+              <MappingFragment StoreEntitySet="TAIKHOAN">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ID_Loai_TK" ColumnName="ID_Loai_TK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="VIETSACH">
             <EntityTypeMapping TypeName="BanSachModel.VIETSACH">
               <MappingFragment StoreEntitySet="VIETSACH">
@@ -673,37 +692,12 @@ warning 6002: The table/view 'BanSach.dbo.PHANQUYEN' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CHUCNANG">
-            <EntityTypeMapping TypeName="BanSachModel.CHUCNANG">
-              <MappingFragment StoreEntitySet="CHUCNANG">
-                <ScalarProperty Name="Ten_ChucNang" ColumnName="Ten_ChucNang" />
-                <ScalarProperty Name="ID_ChucNang" ColumnName="ID_ChucNang" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAIKHOAN">
-            <EntityTypeMapping TypeName="BanSachModel.TAIKHOAN">
-              <MappingFragment StoreEntitySet="TAIKHOAN">
-                <ScalarProperty Name="ID_Loai_TK" ColumnName="ID_Loai_TK" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LOAI_TAIKHOAN">
-            <EntityTypeMapping TypeName="BanSachModel.LOAI_TAIKHOAN">
-              <MappingFragment StoreEntitySet="LOAI_TAIKHOAN">
-                <ScalarProperty Name="Ten_LoaiTK" ColumnName="Ten_LoaiTK" />
-                <ScalarProperty Name="ID_LoaiTK" ColumnName="ID_LoaiTK" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="PHANQUYEN" TypeName="BanSachModel.PHANQUYEN" StoreEntitySet="PHANQUYEN">
-            <EndProperty Name="LOAI_TAIKHOAN">
-              <ScalarProperty Name="ID_LoaiTK" ColumnName="ID_LoaiTK" />
-            </EndProperty>
             <EndProperty Name="CHUCNANG">
               <ScalarProperty Name="ID_ChucNang" ColumnName="ID_ChucNang" />
+            </EndProperty>
+            <EndProperty Name="LOAI_TAIKHOAN">
+              <ScalarProperty Name="ID_LoaiTK" ColumnName="ID_LoaiTK" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

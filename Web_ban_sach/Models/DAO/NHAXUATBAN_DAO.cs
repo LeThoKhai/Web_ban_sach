@@ -10,7 +10,7 @@ namespace Web_ban_sach.Models.DAO
     {
         public static List<NHAXUATBAN> Read()
         {
-            using (BanSachEntities db = new BanSachEntities())
+            using (BanSachEntities2 db = new BanSachEntities2())
             {
                 List<NHAXUATBAN> ketqua = db.NHAXUATBAN.ToList();
                 foreach(NHAXUATBAN nxb in ketqua)

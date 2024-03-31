@@ -10,7 +10,7 @@ namespace Web_ban_sach.Models.DAO
     {
         public static List<CHUDE> Read()
         {
-            using (BanSachEntities db = new BanSachEntities())
+            using (BanSachEntities2 db = new BanSachEntities2())
             {
                 List<CHUDE> ketqua = db.CHUDE.ToList();
                 foreach(CHUDE cd in ketqua)
